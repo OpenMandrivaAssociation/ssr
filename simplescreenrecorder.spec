@@ -9,6 +9,7 @@ License:	GPLv3+
 Group:		Video
 Url:		http://www.maartenbaert.be/simplescreenrecorder
 Source0:	https://github.com/MaartenBaert/ssr/archive/%{rname}-%{version}.tar.gz
+Source1:	simplescreenrecorder.rpmlintrc
 BuildRequires:	pkgconfig(QtCore)
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
