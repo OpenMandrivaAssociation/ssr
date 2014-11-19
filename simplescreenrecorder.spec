@@ -20,6 +20,7 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(xi)
+BuildRequires:  devel(libjpeg)
 %ifarch %{ix86} x86_64
 Suggests:	%{libglinject}
 %endif
