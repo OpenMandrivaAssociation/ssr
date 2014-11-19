@@ -4,7 +4,7 @@
 Summary:	A feature-rich screen recorder that supports X11 and OpenGL
 Name:		simplescreenrecorder
 Version:	0.3.1
-Release:	1
+Release:	2
 License:	GPLv3+
 Group:		Video
 Url:		http://www.maartenbaert.be/simplescreenrecorder
@@ -87,6 +87,10 @@ This package provides SimpleScreenRecorder's optional library.
 %setup -q -n ssr-%{version}
 
 %build
+
+export CC=gcc
+export CXX=g++
+
 %ifarch %{ix86} x86_64
 %configure2_5x
 %else
