@@ -59,11 +59,12 @@ Features:
    out what something does.
 
 %files
-%doc COPYING *.txt README.md data/about.htm
+%doc COPYING *.txt *.md data/resources/about.htm
 %{_bindir}/%{name}
+%{_bindir}/ssr-glinject
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/hicolor/256x256/apps/%{name}.png
-
+%{_datadir}/icons/hicolor/*/apps/%{name}*
+%{_datadir}/%{name}
 #----------------------------------------------------------------------------
 
 %ifarch %{ix86} x86_64
