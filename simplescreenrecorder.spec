@@ -1,22 +1,27 @@
 %define libglinject %mklibname ssr-glinject
+%define rname ssr
 
 Summary:	A feature-rich screen recorder that supports X11 and OpenGL
 Name:		simplescreenrecorder
-Version:	0.1.2
+Version:	0.3.1
 Release:	1
 License:	GPLv3+
 Group:		Video
 Url:		http://www.maartenbaert.be/simplescreenrecorder
-Source0:	https://github.com/MaartenBaert/ssr/archive/%{name}-%{version}.tar.gz
+Source0:	https://github.com/MaartenBaert/ssr/archive/%{rname}-%{version}.tar.gz
+Source1:	simplescreenrecorder.rpmlintrc
 BuildRequires:	pkgconfig(QtCore)
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(libavformat)
 BuildRequires:	pkgconfig(libpulse)
+BuildRequires:	pkgconfig(jack)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
+BuildRequires:	pkgconfig(xi)
+BuildRequires:  jpeg-devel
 %ifarch %{ix86} x86_64
 Suggests:	%{libglinject}
 %endif
@@ -55,11 +60,12 @@ Features:
    out what something does.
 
 %files
-%doc COPYING *.txt README.md data/about.htm
+%doc COPYING *.txt *.md data/resources/about.htm
 %{_bindir}/%{name}
+%{_bindir}/ssr-glinject
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/hicolor/256x256/apps/%{name}.png
-
+%{_datadir}/icons/hicolor/*/apps/%{name}*
+%{_datadir}/%{name}
 #----------------------------------------------------------------------------
 
 %ifarch %{ix86} x86_64
