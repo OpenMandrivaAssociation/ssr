@@ -1,14 +1,14 @@
 %define libglinject %mklibname ssr-glinject
 
 Summary:	A feature-rich screen recorder that supports X11 and OpenGL
-Name:		simplescreenrecorder
+Name:		ssr
 Version:	0.3.6
 Release:	1
 License:	GPLv3+
 Group:		Video
 Url:		http://www.maartenbaert.be/simplescreenrecorder
 Source0:	https://github.com/MaartenBaert/ssr/archive/%{name}-%{version}.tar.gz
-Source1:	simplescreenrecorder.rpmlintrc
+Source1:	%{name}.rpmlintrc
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
