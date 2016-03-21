@@ -15,7 +15,6 @@ BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(libavformat)
 BuildRequires:	pkgconfig(libpulse)
-BuildRequires:	pkgconfig(jack)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
@@ -91,11 +90,12 @@ This package provides SimpleScreenRecorder's optional library.
 	--disable-static \
 %ifarch %{ix86} x86_64
 	--disable-x86-asm \
-	--disable-glinjectlib
+	--disable-glinjectlib \
 %endif
+	--with-qt5 \
+	--without-jack
 
 %make
 
 %install
 %makeinstall_std
-
