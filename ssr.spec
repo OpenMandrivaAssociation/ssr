@@ -1,16 +1,15 @@
 %define libglinject %mklibname ssr-glinject
-%define rname ssr
 
 Summary:	A feature-rich screen recorder that supports X11 and OpenGL
 Name:		simplescreenrecorder
-Version:	0.3.1
-Release:	3
+Version:	0.3.6
+Release:	1
 License:	GPLv3+
 Group:		Video
 Url:		http://www.maartenbaert.be/simplescreenrecorder
-Source0:	https://github.com/MaartenBaert/ssr/archive/%{rname}-%{version}.tar.gz
+Source0:	https://github.com/MaartenBaert/ssr/archive/%{name}-%{version}.tar.gz
 Source1:	simplescreenrecorder.rpmlintrc
-BuildRequires:	pkgconfig(QtCore)
+BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glu)
@@ -25,6 +24,7 @@ BuildRequires:  jpeg-devel
 %ifarch %{ix86} x86_64
 Suggests:	%{libglinject}
 %endif
+%rename		simplescreenrecorder
 
 %description
 SimpleScreenRecorder is a Linux program that was created to record programs
@@ -84,20 +84,16 @@ This package provides SimpleScreenRecorder's optional library.
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q -n ssr-%{version}
+%setup -q
 
 %build
-
-export CC=gcc
-export CXX=g++
-
+%configure \
+	--disable-static \
 %ifarch %{ix86} x86_64
-%configure2_5x
-%else
-%configure2_5x \
 	--disable-x86-asm \
 	--disable-glinjectlib
 %endif
+
 %make
 
 %install
