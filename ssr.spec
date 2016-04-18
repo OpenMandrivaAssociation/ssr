@@ -9,6 +9,7 @@ Group:		Video
 Url:		http://www.maartenbaert.be/simplescreenrecorder
 Source0:	https://github.com/MaartenBaert/ssr/archive/%{name}-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
+BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
