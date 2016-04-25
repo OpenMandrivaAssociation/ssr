@@ -75,7 +75,7 @@ Features:
 %setup -q
 
 %build
-%configure2_5x \
+%configure \
 	--disable-static \
 %ifarch %{ix86} x86_64
 	--disable-x86-asm \
