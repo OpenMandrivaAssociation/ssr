@@ -1,2 +1,0 @@
-addFilter("E: unexpanded-macro")
-addFilter("E: invalid-soname")
