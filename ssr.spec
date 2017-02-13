@@ -2,14 +2,14 @@
 
 Summary:	A feature-rich screen recorder that supports X11 and OpenGL
 Name:		ssr
-Version:	0.3.6
+Version:	0.3.8
 Release:	1
 License:	GPLv3+
 Group:		Video
 Url:		http://www.maartenbaert.be/simplescreenrecorder
 Source0:	https://github.com/MaartenBaert/ssr/archive/%{name}-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
-BuildRequires:	qt5-devel
+BuildRequires:	qmake5
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Gui)
@@ -75,7 +75,7 @@ Features:
 %setup -q
 
 %build
-%configure2_5x \
+%configure \
 	--disable-static \
 %ifarch %{ix86} x86_64
 	--disable-x86-asm \
