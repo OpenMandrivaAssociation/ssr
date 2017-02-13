@@ -66,6 +66,7 @@ Features:
 %{_bindir}/simplescreenrecorder
 %{_bindir}/ssr-glinject
 %{_datadir}/applications/simplescreenrecorder.desktop
+%{_datadir}/appdata/*.xml
 %{_datadir}/icons/hicolor/*/apps/simplescreenrecorder*
 %{_datadir}/simplescreenrecorder
 %{_mandir}/man1/*.1.*
