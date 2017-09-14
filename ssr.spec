@@ -9,6 +9,7 @@ Group:		Video
 Url:		http://www.maartenbaert.be/simplescreenrecorder
 Source0:	https://github.com/MaartenBaert/ssr/archive/%{name}-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
+Patch0:		ssr-0.3.8-non-x86.patch
 BuildRequires:	qmake5
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	pkgconfig(Qt5Core)
@@ -65,6 +66,7 @@ Features:
 %doc COPYING *.txt *.md data/resources/about.htm
 %{_bindir}/simplescreenrecorder
 %{_bindir}/ssr-glinject
+%{_libdir}/libssr-glinject.so
 %{_datadir}/applications/simplescreenrecorder.desktop
 %{_datadir}/appdata/*.xml
 %{_datadir}/icons/hicolor/*/apps/simplescreenrecorder*
@@ -74,13 +76,13 @@ Features:
 
 %prep
 %setup -q
+%apply_patches
 
 %build
 %configure \
 	--disable-static \
-%ifarch %{ix86} x86_64
+%ifnarch %{ix86} x86_64
 	--disable-x86-asm \
-	--disable-glinjectlib \
 %endif
 	--with-qt5 \
 	--without-jack
