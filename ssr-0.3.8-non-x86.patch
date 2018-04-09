@@ -1,0 +1,15 @@
+--- ssr-0.3.8/glinject/elfhacks.h.omv~	2017-09-14 19:11:24.222383098 +0000
++++ ssr-0.3.8/glinject/elfhacks.h	2017-09-14 19:12:16.014694402 +0000
+@@ -38,10 +38,10 @@ extern "C" {
+ 
+ #define __PUBLIC __attribute__ ((visibility ("default")))
+ 
+-#ifdef __x86_64__
++#if defined(__x86_64__) || defined(__aarch64__) || defined(__mips64__)
+ # define __elf64
+ #endif
+-#ifdef __i386__
++#if defined(__i386__) || defined(__arm__) || defined(__mips__)
+ # define __elf32
+ #endif
+ 
