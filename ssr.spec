@@ -80,7 +80,7 @@ Features:
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 %cmake_qt5 \
 %ifnarch %{ix86} x86_64}
 	-DENABLE_X86_ASM:BOOL=OFF \
