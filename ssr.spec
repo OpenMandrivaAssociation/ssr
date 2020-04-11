@@ -29,6 +29,7 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(xi)
+BuildRequires:  pkgconfig(xinerama)
 BuildRequires:  jpeg-devel
 %rename		simplescreenrecorder
 
