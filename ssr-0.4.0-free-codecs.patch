@@ -1,0 +1,100 @@
+diff -up ssr-0.4.0/src/GUI/PageOutput.cpp.omv~ ssr-0.4.0/src/GUI/PageOutput.cpp
+--- ssr-0.4.0/src/GUI/PageOutput.cpp.omv~	2020-04-17 16:00:09.207244612 +0200
++++ ssr-0.4.0/src/GUI/PageOutput.cpp	2020-04-18 16:21:55.781865541 +0200
+@@ -39,12 +39,14 @@ ENUMSTRINGS(PageOutput::enum_container)
+ 	{PageOutput::CONTAINER_OTHER, "other"},
+ };
+ ENUMSTRINGS(PageOutput::enum_video_codec) = {
+-	{PageOutput::VIDEO_CODEC_H264, "h264"},
++	{PageOutput::VIDEO_CODEC_AV1, "librav1e"},
+ 	{PageOutput::VIDEO_CODEC_VP8, "vp8"},
++	{PageOutput::VIDEO_CODEC_H264, "h264"},
+ 	{PageOutput::VIDEO_CODEC_THEORA, "theora"},
+ 	{PageOutput::VIDEO_CODEC_OTHER, "other"},
+ };
+ ENUMSTRINGS(PageOutput::enum_audio_codec) = {
++	{PageOutput::AUDIO_CODEC_OPUS, "opus"},
+ 	{PageOutput::AUDIO_CODEC_VORBIS, "vorbis"},
+ 	{PageOutput::AUDIO_CODEC_MP3, "mp3"},
+ 	{PageOutput::AUDIO_CODEC_AAC, "aac"},
+@@ -80,27 +82,29 @@ PageOutput::PageOutput(MainWindow* main_
+ 	// (initializer lists should use explicit types for Clang)
+ 	m_containers = {
+ 		ContainerData({"Matroska (MKV)", "matroska", QStringList({"mkv"}), tr("%1 files", "This appears in the file dialog, e.g. 'MP4 files'").arg("Matroska") + " (*.mkv)",
+-			{VIDEO_CODEC_H264, VIDEO_CODEC_VP8, VIDEO_CODEC_THEORA},
+-			{AUDIO_CODEC_VORBIS, AUDIO_CODEC_MP3, AUDIO_CODEC_AAC, AUDIO_CODEC_UNCOMPRESSED}}),
++			{VIDEO_CODEC_AV1, VIDEO_CODEC_H264, VIDEO_CODEC_VP8, VIDEO_CODEC_THEORA},
++			{AUDIO_CODEC_OPUS, AUDIO_CODEC_VORBIS, AUDIO_CODEC_MP3, AUDIO_CODEC_AAC, AUDIO_CODEC_UNCOMPRESSED}}),
+ 		ContainerData({"MP4", "mp4", QStringList({"mp4"}), tr("%1 files", "This appears in the file dialog, e.g. 'MP4 files'").arg("MP4") + " (*.mp4)",
+ 			{VIDEO_CODEC_H264},
+-			{AUDIO_CODEC_VORBIS, AUDIO_CODEC_MP3, AUDIO_CODEC_AAC}}),
++			{AUDIO_CODEC_OPUS, AUDIO_CODEC_VORBIS, AUDIO_CODEC_MP3, AUDIO_CODEC_AAC}}),
+ 		ContainerData({"WebM", "webm", QStringList({"webm"}), tr("%1 files", "This appears in the file dialog, e.g. 'MP4 files'").arg("WebM") + " (*.webm)",
+-			{VIDEO_CODEC_VP8},
+-			{AUDIO_CODEC_VORBIS}}),
++			{VIDEO_CODEC_VP8, VIDEO_CODEC_AV1},
++			{AUDIO_CODEC_OPUS, AUDIO_CODEC_VORBIS}}),
+ 		ContainerData({"OGG", "ogg", QStringList({"ogg"}), tr("%1 files", "This appears in the file dialog, e.g. 'MP4 files'").arg("OGG") + " (*.ogg)",
+ 			{VIDEO_CODEC_THEORA},
+-			{AUDIO_CODEC_VORBIS}}),
++			{AUDIO_CODEC_OPUS, AUDIO_CODEC_VORBIS}}),
+ 		ContainerData({tr("Other..."), "other", QStringList(), "", std::set<enum_video_codec>({}), std::set<enum_audio_codec>({})}),
+ 	};
+ 	m_video_codecs = {
+-		{"H.264"       , "libx264"  },
++		{"AV1"         , "librav1e" },
+ 		{"VP8"         , "libvpx"   },
+ 		{"Theora"      , "libtheora"},
++		{"H.264"       , "libx264"  },
+ 		{tr("Other..."), "other"    },
+ 	};
+ 	m_audio_codecs = {
+-		{"Vorbis"          , "libvorbis"   },
++		{"Opus"            , "opus"        },
++		{"Vorbis"          , "vorbis"      },
+ 		{"MP3"             , "libmp3lame"  },
+ 		{"AAC"             , "libvo_aacenc"},
+ 		{tr("Uncompressed"), "pcm_s16le"   },
+diff -up ssr-0.4.0/src/GUI/PageOutput.h.omv~ ssr-0.4.0/src/GUI/PageOutput.h
+--- ssr-0.4.0/src/GUI/PageOutput.h.omv~	2020-04-17 16:02:39.889006771 +0200
++++ ssr-0.4.0/src/GUI/PageOutput.h	2020-04-17 16:03:17.813450283 +0200
+@@ -37,6 +37,7 @@ public:
+ 		CONTAINER_COUNT // must be last
+ 	};
+ 	enum enum_video_codec {
++		VIDEO_CODEC_AV1,
+ 		VIDEO_CODEC_H264,
+ 		VIDEO_CODEC_VP8,
+ 		VIDEO_CODEC_THEORA,
+@@ -44,6 +45,7 @@ public:
+ 		VIDEO_CODEC_COUNT // must be last
+ 	};
+ 	enum enum_audio_codec {
++		AUDIO_CODEC_OPUS,
+ 		AUDIO_CODEC_VORBIS,
+ 		AUDIO_CODEC_MP3,
+ 		AUDIO_CODEC_AAC,
+diff -up ssr-0.4.0/src/GUI/PageRecord.cpp.omv~ ssr-0.4.0/src/GUI/PageRecord.cpp
+--- ssr-0.4.0/src/GUI/PageRecord.cpp.omv~	2020-04-18 16:17:29.105756123 +0200
++++ ssr-0.4.0/src/GUI/PageRecord.cpp	2020-04-18 16:18:39.813859658 +0200
+@@ -620,14 +620,18 @@ void PageRecord::StartPage() {
+ 			m_output_settings.video_options.push_back(std::make_pair(QString("cpu-used"), QString::number(page_output->GetVP8CPUUsed())));
+ 			break;
+ 		}
+-		case PageOutput::VIDEO_CODEC_OTHER: {
++		case PageOutput::VIDEO_CODEC_OTHER:
++		case PageOutput::VIDEO_CODEC_AV1:
++		{
+ 			m_output_settings.video_options = GetOptionsFromString(page_output->GetVideoOptions());
+ 			break;
+ 		}
+ 		default: break; // to keep GCC happy
+ 	}
+ 	switch(page_output->GetAudioCodec()) {
+-		case PageOutput::AUDIO_CODEC_OTHER: {
++		case PageOutput::AUDIO_CODEC_OTHER:
++		case PageOutput::AUDIO_CODEC_OPUS:
++		{
+ 			m_output_settings.audio_options = GetOptionsFromString(page_output->GetAudioOptions());
+ 			break;
+ 		}
