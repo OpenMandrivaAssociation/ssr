@@ -14,6 +14,7 @@ Patch1:		ssr-0.4.0-free-codecs.patch
 BuildRequires:	cmake ninja
 BuildRequires:	qmake5
 BuildRequires:	qt5-linguist-tools
+BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Widgets)
