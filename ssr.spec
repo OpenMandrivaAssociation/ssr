@@ -10,7 +10,7 @@ Url:		http://www.maartenbaert.be/simplescreenrecorder
 #Source0:	https://github.com/MaartenBaert/ssr/archive/%{version}/%{name}-%{version}.tar.gz
 Source0:	ssr-master.tar.xz
 Source1:	%{name}.rpmlintrc
-Patch0:		ssr-0.3.8-non-x86.patch
+#Patch0:		ssr-0.3.8-non-x86.patch
 Patch1:		ssr-0.4.0-free-codecs.patch
 Patch2:		ffmpeg7-test.patch
 BuildRequires:	cmake ninja
