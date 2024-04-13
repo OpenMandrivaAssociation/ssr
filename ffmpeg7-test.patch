@@ -1,0 +1,44 @@
+diff -uraN ssr/src/AV/Output/AudioEncoder.cpp omv-ssr/src/AV/Output/AudioEncoder.cpp
+--- ssr/src/AV/Output/AudioEncoder.cpp	2024-04-13 18:37:08.396758887 +0200
++++ omv-ssr/src/AV/Output/AudioEncoder.cpp	2024-04-13 18:34:05.373862442 +0200
+@@ -69,7 +69,7 @@
+ }
+ 
+ unsigned int AudioEncoder::GetChannels() {
+-	return GetCodecContext()->channels;
++	return GetCodecContext()->ch_layout.nb_channels;
+ }
+ 
+ unsigned int AudioEncoder::GetSampleRate() {
+@@ -107,8 +107,8 @@
+ 	}
+ 
+ 	codec_context->bit_rate = bit_rate;
+-	codec_context->channels = channels;
+-	codec_context->channel_layout = (channels == 1)? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO;
++	codec_context->ch_layout.nb_channels = ch_layout.nb_channels;
++	codec_context->ch_layout = (ch_layout == 1)? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO;
+ 	codec_context->sample_rate = sample_rate;
+ 	codec_context->time_base.num = 1;
+ 	codec_context->time_base.den = sample_rate;
+@@ -158,7 +158,7 @@
+ 		assert((unsigned int) frame->GetFrame()->nb_samples == GetFrameSize());
+ #endif
+ #if SSR_USE_AVFRAME_CHANNELS
+-		assert(frame->GetFrame()->channels == GetCodecContext()->channels);
++		assert(frame->GetFrame()->ch_layout.nb_channels == GetCodecContext()->ch_layout.nb_channels);
+ #endif
+ #if SSR_USE_AVFRAME_SAMPLE_RATE
+ 		assert(frame->GetFrame()->sample_rate == GetCodecContext()->sample_rate);
+diff -uraN ssr/src/AV/Output/Synchronizer.cpp omv-ssr/src/AV/Output/Synchronizer.cpp
+--- ssr/src/AV/Output/Synchronizer.cpp	2024-04-13 18:37:08.397758821 +0200
++++ omv-ssr/src/AV/Output/Synchronizer.cpp	2024-04-13 18:36:36.744847022 +0200
+@@ -180,7 +180,7 @@
+ 	frame->GetFrame()->nb_samples = samples;
+ #endif
+ #if SSR_USE_AVFRAME_CHANNELS
+-	frame->GetFrame()->channels = channels;
++	frame->GetFrame()->ch_layout.nb_channel = ch_layout.nb_channel;
+ #endif
+ #if SSR_USE_AVFRAME_SAMPLE_RATE
+ 	frame->GetFrame()->sample_rate = sample_rate;
