@@ -17,7 +17,7 @@ diff -uraN ssr/src/AV/Output/AudioEncoder.cpp omv-ssr/src/AV/Output/AudioEncoder
 -	codec_context->channels = channels;
 -	codec_context->channel_layout = (channels == 1)? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO;
 +	codec_context->ch_layout.nb_channels = ch_layout.nb_channels;
-+	codec_context->ch_layout = (ch_layout == 1)? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO;
++	codec_context->ch_layout.nb_channels = (ch_layout.nb_channels == 1)? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO;
  	codec_context->sample_rate = sample_rate;
  	codec_context->time_base.num = 1;
  	codec_context->time_base.den = sample_rate;
