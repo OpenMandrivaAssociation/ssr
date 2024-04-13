@@ -38,7 +38,7 @@ diff -uraN ssr/src/AV/Output/Synchronizer.cpp omv-ssr/src/AV/Output/Synchronizer
  #endif
  #if SSR_USE_AVFRAME_CHANNELS
 -	frame->GetFrame()->channels = channels;
-+	frame->GetFrame()->ch_layout.nb_channel = ch_layout.nb_channel;
++	frame->GetFrame()->ch_layout.nb_channels = ch_layout.nb_channels;
  #endif
  #if SSR_USE_AVFRAME_SAMPLE_RATE
  	frame->GetFrame()->sample_rate = sample_rate;
