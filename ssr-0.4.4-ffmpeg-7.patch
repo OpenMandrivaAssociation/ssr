@@ -1,0 +1,44 @@
+diff -up ssr-0.4.4/src/AV/Output/AudioEncoder.cpp.omv~ ssr-0.4.4/src/AV/Output/AudioEncoder.cpp
+--- ssr-0.4.4/src/AV/Output/AudioEncoder.cpp.omv~	2024-04-14 14:29:29.989417248 +0200
++++ ssr-0.4.4/src/AV/Output/AudioEncoder.cpp	2024-04-14 14:30:29.342048964 +0200
+@@ -69,7 +69,7 @@ AVSampleFormat AudioEncoder::GetSampleFo
+ }
+ 
+ unsigned int AudioEncoder::GetChannels() {
+-	return GetCodecContext()->channels;
++	return GetCodecContext()->ch_layout.nb_channels;
+ }
+ 
+ unsigned int AudioEncoder::GetSampleRate() {
+@@ -106,8 +106,8 @@ void AudioEncoder::PrepareStream(AVStrea
+ 	}
+ 
+ 	codec_context->bit_rate = bit_rate;
+-	codec_context->channels = channels;
+-	codec_context->channel_layout = (channels == 1)? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO;
++	codec_context->ch_layout.u.mask = (channels == 1)? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO;
++	codec_context->ch_layout.nb_channels = channels;
+ 	codec_context->sample_rate = sample_rate;
+ 	codec_context->time_base.num = 1;
+ 	codec_context->time_base.den = sample_rate;
+@@ -157,7 +157,7 @@ bool AudioEncoder::EncodeFrame(AVFrameWr
+ 		assert((unsigned int) frame->GetFrame()->nb_samples == GetFrameSize());
+ #endif
+ #if SSR_USE_AVFRAME_CHANNELS
+-		assert(frame->GetFrame()->channels == GetCodecContext()->channels);
++		assert(frame->GetFrame()->ch_layout.nb_channels == GetCodecContext()->ch_layout.nb_channels);
+ #endif
+ #if SSR_USE_AVFRAME_SAMPLE_RATE
+ 		assert(frame->GetFrame()->sample_rate == GetCodecContext()->sample_rate);
+diff -up ssr-0.4.4/src/AV/Output/Synchronizer.cpp.omv~ ssr-0.4.4/src/AV/Output/Synchronizer.cpp
+--- ssr-0.4.4/src/AV/Output/Synchronizer.cpp.omv~	2024-04-14 14:28:56.653061981 +0200
++++ ssr-0.4.4/src/AV/Output/Synchronizer.cpp	2024-04-14 14:29:09.329197112 +0200
+@@ -180,7 +180,7 @@ static std::unique_ptr<AVFrameWrapper> C
+ 	frame->GetFrame()->nb_samples = samples;
+ #endif
+ #if SSR_USE_AVFRAME_CHANNELS
+-	frame->GetFrame()->channels = channels;
++	frame->GetFrame()->ch_layout.nb_channels = channels;
+ #endif
+ #if SSR_USE_AVFRAME_SAMPLE_RATE
+ 	frame->GetFrame()->sample_rate = sample_rate;
