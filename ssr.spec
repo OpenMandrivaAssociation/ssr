@@ -6,7 +6,7 @@ Version:	0.4.4
 Release:	5
 License:	GPLv3+
 Group:		Video
-Url:		http://www.maartenbaert.be/simplescreenrecorder
+Url:		https://www.maartenbaert.be/simplescreenrecorder
 Source0:	https://github.com/MaartenBaert/ssr/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 Patch0:		ssr-0.3.8-non-x86.patch
