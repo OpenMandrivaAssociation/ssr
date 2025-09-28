@@ -1,9 +1,10 @@
 %define rname ssr
+%define git .20250614
 
 Summary:	A feature-rich screen recorder that supports X11 and OpenGL
 Name:		ssr
-Version:	0.4.4
-Release:	7
+Version:	0.4.4%{git}
+Release:	1
 License:	GPLv3+
 Group:		Video
 Url:		https://www.maartenbaert.be/simplescreenrecorder
@@ -81,8 +82,8 @@ Features:
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q
-%autopatch -p1
+%autosetup -p1
+
 %cmake_qt5 \
 %ifnarch %{ix86} x86_64}
 	-DENABLE_X86_ASM:BOOL=OFF \
