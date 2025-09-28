@@ -88,8 +88,7 @@ Features:
 %ifnarch %{ix86} x86_64}
 	-DENABLE_X86_ASM:BOOL=OFF \
 %endif
-	-DWITH_QT6 \
-	-G Ninja
+	-DWITH_QT6:BOOL=ON
 
 %build
 %make_build
