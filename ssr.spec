@@ -15,13 +15,12 @@ Source1:	%{name}.rpmlintrc
 #Patch2:		ssr-0.4.3-ffmpeg-5.0.patch
 #Patch3:		ssr-0.4.4-ffmpeg-7.patch
 BuildRequires:	cmake ninja
-BuildRequires:	qmake5
-BuildRequires:	qt5-linguist-tools
+BuildRequires:	qmake-qt6
+BuildRequires:	cmake(Qt6Linguist)
 BuildRequires:	pkgconfig(libv4l2)
-BuildRequires:	pkgconfig(Qt5Core)
-BuildRequires:	pkgconfig(Qt5Gui)
-BuildRequires:	pkgconfig(Qt5Widgets)
-BuildRequires:	pkgconfig(Qt5X11Extras)
+BuildRequires:	pkgconfig(Qt6Core)
+BuildRequires:	pkgconfig(Qt6Gui)
+BuildRequires:	pkgconfig(Qt6Widgets)
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glu)
@@ -75,8 +74,8 @@ Features:
 %{_bindir}/simplescreenrecorder
 %{_bindir}/ssr-glinject
 %{_libdir}/libssr-glinject.so
-%{_datadir}/applications/simplescreenrecorder.desktop
-%{_datadir}/metainfo/simplescreenrecorder.metainfo.xml
+%{_datadir}/applications/be.maartenbaert.simplescreenrecorder.desktop
+%{_datadir}/metainfo/be.maartenbaert.simplescreenrecorder.metainfo.xml
 %{_datadir}/icons/hicolor/*/apps/simplescreenrecorder*
 %{_datadir}/simplescreenrecorder
 %{_mandir}/man1/*.1.*
@@ -85,15 +84,15 @@ Features:
 %prep
 %autosetup -p1
 
-%cmake_qt5 \
+%cmake \
 %ifnarch %{ix86} x86_64}
 	-DENABLE_X86_ASM:BOOL=OFF \
 %endif
-	-DWITH_QT5:BOOL=ON \
+	-DWITH_QT6 \
 	-G Ninja
 
 %build
-%ninja -C build
+%make_build
 
 %install
-%ninja_install -C build
+%make_install -C build
