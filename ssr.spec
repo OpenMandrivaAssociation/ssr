@@ -1,30 +1,32 @@
 %define rname ssr
+%define git .20250614
 
 Summary:	A feature-rich screen recorder that supports X11 and OpenGL
 Name:		ssr
-Version:	0.4.4
-Release:	7
+Version:	0.4.4%{git}
+Release:	1
 License:	GPLv3+
 Group:		Video
 Url:		https://www.maartenbaert.be/simplescreenrecorder
 Source0:	https://github.com/MaartenBaert/ssr/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
-Patch0:		ssr-0.3.8-non-x86.patch
-Patch1:		ssr-0.4.0-free-codecs.patch
-Patch2:		ssr-0.4.3-ffmpeg-5.0.patch
-Patch3:		ssr-0.4.4-ffmpeg-7.patch
+#Patch0:		ssr-0.3.8-non-x86.patch
+#Patch1:		ssr-0.4.0-free-codecs.patch
+#Patch2:		ssr-0.4.3-ffmpeg-5.0.patch
+#Patch3:		ssr-0.4.4-ffmpeg-7.patch
 BuildRequires:	cmake ninja
-BuildRequires:	qmake5
-BuildRequires:	qt5-linguist-tools
+BuildRequires:	qmake-qt6
+BuildRequires:	qt6-qtbase-theme-gtk3
+BuildRequires:	cmake(Qt6Linguist)
 BuildRequires:	pkgconfig(libv4l2)
-BuildRequires:	pkgconfig(Qt5Core)
-BuildRequires:	pkgconfig(Qt5Gui)
-BuildRequires:	pkgconfig(Qt5Widgets)
-BuildRequires:	pkgconfig(Qt5X11Extras)
+BuildRequires:	pkgconfig(Qt6Core)
+BuildRequires:	pkgconfig(Qt6Gui)
+BuildRequires:	pkgconfig(Qt6Widgets)
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(libavformat)
+BuildRequires:	pkgconfig(libpipewire-0.3)
 BuildRequires:	pkgconfig(libpulse)
 BuildRequires:	pkgconfig(jack)
 BuildRequires:	pkgconfig(x11)
@@ -32,7 +34,8 @@ BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(xi)
 BuildRequires:  pkgconfig(xinerama)
-BuildRequires:  jpeg-devel
+BuildRequires:  pkgconfig(libjpeg)
+BuildRequires:	cmake(VulkanHeaders)
 %rename		simplescreenrecorder
 
 %description
@@ -73,25 +76,24 @@ Features:
 %{_bindir}/simplescreenrecorder
 %{_bindir}/ssr-glinject
 %{_libdir}/libssr-glinject.so
-%{_datadir}/applications/simplescreenrecorder.desktop
-%{_datadir}/metainfo/simplescreenrecorder.metainfo.xml
+%{_datadir}/applications/be.maartenbaert.simplescreenrecorder.desktop
+%{_datadir}/metainfo/be.maartenbaert.simplescreenrecorder.metainfo.xml
 %{_datadir}/icons/hicolor/*/apps/simplescreenrecorder*
 %{_datadir}/simplescreenrecorder
 %{_mandir}/man1/*.1.*
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q
-%autopatch -p1
-%cmake_qt5 \
+%autosetup -p1
+
+%build
+%cmake \
 %ifnarch %{ix86} x86_64}
 	-DENABLE_X86_ASM:BOOL=OFF \
 %endif
-	-DWITH_QT5:BOOL=ON \
-	-G Ninja
+	-DWITH_QT6:BOOL=ON
 
-%build
-%ninja -C build
+%make_build
 
 %install
-%ninja_install -C build
+%make_install -C build
