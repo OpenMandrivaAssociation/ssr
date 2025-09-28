@@ -16,6 +16,7 @@ Source1:	%{name}.rpmlintrc
 #Patch3:		ssr-0.4.4-ffmpeg-7.patch
 BuildRequires:	cmake ninja
 BuildRequires:	qmake-qt6
+BuildRequires:	qt6-qtbase-theme-gtk3
 BuildRequires:	cmake(Qt6Linguist)
 BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(Qt6Core)
@@ -33,7 +34,8 @@ BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(xi)
 BuildRequires:  pkgconfig(xinerama)
-BuildRequires:  jpeg-devel
+BuildRequires:  pkgconfig(libjpeg)
+BuildRequires:	cmake(VulkanHeaders)
 %rename		simplescreenrecorder
 
 %description
@@ -84,13 +86,13 @@ Features:
 %prep
 %autosetup -p1
 
+%build
 %cmake \
 %ifnarch %{ix86} x86_64}
 	-DENABLE_X86_ASM:BOOL=OFF \
 %endif
 	-DWITH_QT6:BOOL=ON
 
-%build
 %make_build
 
 %install
