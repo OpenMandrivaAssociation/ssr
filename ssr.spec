@@ -93,7 +93,7 @@ Features:
 %endif
 	-DWITH_QT6:BOOL=ON
 
-%ninja_build -C build
+%ninja_build
 
 %install
 %ninja_install -C build
