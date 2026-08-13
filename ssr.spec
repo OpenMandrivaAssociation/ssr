@@ -4,7 +4,7 @@
 Summary:	A feature-rich screen recorder that supports X11 and OpenGL
 Name:		ssr
 Version:	0.4.4
-Release:	6%{git}
+Release:	7%{git}
 License:	GPLv3+
 Group:		Video
 Url:		https://www.maartenbaert.be/simplescreenrecorder
@@ -33,8 +33,8 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(xi)
-BuildRequires:  pkgconfig(xinerama)
-BuildRequires:  pkgconfig(libjpeg)
+BuildRequires:	pkgconfig(xinerama)
+BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	cmake(VulkanHeaders)
 %rename		simplescreenrecorder
 
@@ -87,13 +87,13 @@ Features:
 %autosetup -p1 -n %{name}-%{version}%{git}
 
 %build
-%cmake \
-%ifnarch %{ix86} x86_64}
+%cmake -G Ninja \
+%ifnarch %{ix86} x86_64 znver1
 	-DENABLE_X86_ASM:BOOL=OFF \
 %endif
 	-DWITH_QT6:BOOL=ON
 
-%make_build
+%ninja_build -C build
 
 %install
-%make_install -C build
+%ninja_install -C build
