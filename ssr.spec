@@ -4,7 +4,7 @@
 Summary:	A feature-rich screen recorder that supports X11 and OpenGL
 Name:		ssr
 Version:	0.4.4
-Release:	4%{git}
+Release:	5%{git}
 License:	GPLv3+
 Group:		Video
 Url:		https://www.maartenbaert.be/simplescreenrecorder
