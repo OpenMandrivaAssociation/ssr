@@ -14,6 +14,9 @@ Source1:	%{name}.rpmlintrc
 #Patch1:		ssr-0.4.0-free-codecs.patch
 #Patch2:		ssr-0.4.3-ffmpeg-5.0.patch
 #Patch3:		ssr-0.4.4-ffmpeg-7.patch
+%patchlist
+ssr-0.4.4-ffmpeg9.patch
+
 BuildRequires:	cmake ninja
 BuildRequires:	qmake-qt6
 BuildRequires:	qt6-qtbase-theme-gtk3
